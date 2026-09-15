@@ -1,0 +1,4784 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MICOMP 2026 | IFRS Ibirubá</title>
+
+  <meta
+    name="description"
+    content="MICOMP 2026 — Mostra Interdisciplinar de Computação do IFRS Campus Ibirubá."
+  >
+
+  <style>
+
+    /* =====================================================
+       VARIÁVEIS
+    ===================================================== */
+
+    :root {
+      --bg: #05070b;
+      --bg2: #080c13;
+      --panel: #0b111a;
+
+      --white: #f5f7fb;
+      --muted: #8c98aa;
+      --muted2: #5d6b7e;
+
+      --line: rgba(255,255,255,.09);
+
+      --blue: #4e8cff;
+      --cyan: #45d7ff;
+      --purple: #8d5cff;
+
+      --font-sans: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      --font-mono: "Consolas", "SFMono-Regular", "Liberation Mono", "Courier New", monospace;
+
+      --max: 1240px;
+    }
+
+
+    /* =====================================================
+       RESET
+    ===================================================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+
+    /* =====================================================
+       FUNDO
+    ===================================================== */
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+
+      pointer-events: none;
+
+      opacity: .035;
+
+      background-image:
+        linear-gradient(
+          rgba(100,150,255,.5) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(100,150,255,.5) 1px,
+          transparent 1px
+        );
+
+      background-size: 80px 80px;
+
+      mask-image: linear-gradient(
+        to bottom,
+        black,
+        transparent
+      );
+
+      z-index: -2;
+    }
+
+
+    /* =====================================================
+       CONTAINER
+    ===================================================== */
+
+    .container {
+      width: min(
+        var(--max),
+        calc(100% - 48px)
+      );
+
+      margin: auto;
+    }
+
+
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
+
+    .navbar {
+      height: 78px;
+
+      position: fixed;
+
+      top: 0;
+      left: 0;
+      right: 0;
+
+      z-index: 100;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 34px;
+
+      transition: .3s;
+    }
+
+    .navbar.scrolled {
+      background: rgba(5,7,11,.82);
+
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid var(--line);
+    }
+
+
+    /* LOGO */
+
+    .brand {
+      display: flex;
+      align-items: center;
+
+      gap: 11px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+
+      border: 1px solid rgba(255,255,255,.2);
+
+      display: grid;
+      place-items: center;
+
+      position: relative;
+
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(78,140,255,.2),
+          transparent
+        );
+    }
+
+    .brand-mark span {
+      font-size: 18px;
+      font-weight: 800;
+
+      z-index: 2;
+    }
+
+    .brand-mark::after {
+      content: "";
+
+      position: absolute;
+
+      width: 48px;
+      height: 2px;
+
+      background: var(--blue);
+
+      transform: rotate(-45deg);
+
+      box-shadow:
+        0 0 15px var(--blue);
+    }
+
+    .brand-text {
+      display: grid;
+    }
+
+    .brand-text strong {
+      font-size: 16px;
+
+      letter-spacing: .12em;
+    }
+
+    .brand-text small {
+      font-family: "DM Mono", monospace;
+
+      color: var(--muted);
+
+      font-size: 8px;
+
+      letter-spacing: .15em;
+    }
+
+
+    /* MENU */
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      font-family: "DM Mono", monospace;
+
+      font-size: 10px;
+
+      letter-spacing: .1em;
+
+      color: #aeb7c6;
+
+      transition: .2s;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    .nav-cta {
+      border: 1px solid rgba(78,140,255,.5);
+
+      background: rgba(78,140,255,.1);
+
+      padding: 11px 17px;
+    }
+
+    .menu-button {
+      display: none;
+
+      background: none;
+
+      border: 0;
+
+      color: white;
+
+      font-size: 25px;
+
+      cursor: pointer;
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero {
+      min-height: 100vh;
+
+      position: relative;
+
+      display: flex;
+
+      align-items: center;
+
+      overflow: hidden;
+
+      padding: 130px 8% 80px;
+
+      background:
+        radial-gradient(
+          circle at 72% 43%,
+          rgba(78,140,255,.13),
+          transparent 28%
+        ),
+
+        radial-gradient(
+          circle at 88% 20%,
+          rgba(141,92,255,.1),
+          transparent 25%
+        ),
+
+        linear-gradient(
+          180deg,
+          #060910,
+          #05070b
+        );
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(5,7,11,.98),
+          rgba(5,7,11,.7) 50%,
+          transparent
+        );
+    }
+
+
+    /* ÓRBITAS */
+
+    .orbit {
+      position: absolute;
+
+      border-radius: 50%;
+
+      border: 1px solid
+        rgba(78,140,255,.12);
+    }
+
+    .orbit.one {
+      width: 650px;
+      height: 650px;
+
+      right: -80px;
+      top: 15%;
+    }
+
+    .orbit.two {
+      width: 420px;
+      height: 420px;
+
+      right: 35px;
+      top: 29%;
+
+      border-color:
+        rgba(141,92,255,.13);
+    }
+
+
+    /* BRILHO */
+
+    .hero-glow {
+      position: absolute;
+
+      width: 320px;
+      height: 320px;
+
+      right: 170px;
+      top: 35%;
+
+      background:
+        rgba(78,140,255,.12);
+
+      filter: blur(100px);
+    }
+
+
+    /* CONTEÚDO */
+
+    .hero-content {
+      position: relative;
+
+      z-index: 5;
+
+      max-width: 950px;
+    }
+
+    .eyebrow {
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin-bottom: 25px;
+
+      color: #91a0b7;
+
+      font-family:
+        "DM Mono",
+        monospace;
+
+      font-size: 10px;
+
+      letter-spacing: .16em;
+    }
+
+    .status {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: var(--cyan);
+
+      box-shadow:
+        0 0 15px var(--cyan);
+    }
+
+    .hero-kicker {
+      display: flex;
+
+      gap: 13px;
+
+      margin-bottom: 15px;
+
+      font-family:
+        var(--font-mono);
+
+      font-weight: 700;
+
+      letter-spacing: .16em;
+    }
+
+    .hero-kicker b {
+      color: var(--blue);
+    }
+
+
+    /* TÍTULO */
+
+    .hero h1 {
+      font-size:
+        clamp(
+          45px,
+          6.2vw,
+          90px
+        );
+
+      line-height: .98;
+
+      letter-spacing: -.055em;
+
+      font-weight: 800;
+    }
+
+    .hero h1 span {
+      color: transparent;
+
+      -webkit-text-stroke:
+        1px rgba(255,255,255,.75);
+    }
+
+
+    .hero-description {
+      max-width: 680px;
+
+      margin: 30px 0 25px;
+
+      color: #9ba7b8;
+
+      font-size: 16px;
+
+      line-height: 1.8;
+    }
+
+
+    /* META */
+
+    .hero-meta {
+      display: flex;
+
+      gap: 28px;
+
+      flex-wrap: wrap;
+
+      margin-bottom: 30px;
+    }
+
+    .hero-meta div {
+      color: #d8dee8;
+
+      font-family:
+        "DM Mono",
+        monospace;
+
+      font-size: 10px;
+
+      letter-spacing: .08em;
+    }
+
+
+    /* BOTÕES */
+
+    .buttons {
+      display: flex;
+
+      gap: 12px;
+
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      min-height: 48px;
+
+      padding: 0 21px;
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-family:
+        "DM Mono",
+        monospace;
+
+      font-size: 10px;
+
+      letter-spacing: .1em;
+
+      border: 1px solid transparent;
+
+      transition: .25s;
+    }
+
+    .btn-primary {
+      color: #07090d;
+
+      background: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 15px 35px
+        rgba(255,255,255,.12);
+    }
+
+    .btn-outline {
+      color: #dce2eb;
+
+      background:
+        rgba(255,255,255,.025);
+
+      border-color:
+        var(--line);
+    }
+
+    .btn-outline:hover {
+      border-color:
+        rgba(78,140,255,.6);
+
+      background:
+        rgba(78,140,255,.08);
+    }
+
+
+    /* CÓDIGO */
+
+    .code-card {
+      position: absolute;
+
+      right: 8%;
+      bottom: 18%;
+
+      z-index: 4;
+
+      padding: 25px 30px;
+
+      border-left:
+        1px solid
+        rgba(78,140,255,.35);
+
+      background:
+        rgba(9,13,20,.5);
+
+      backdrop-filter:
+        blur(10px);
+
+      font:
+        13px/2
+        var(--font-mono);
+
+      color: #66768c;
+    }
+
+    .code-card .blue {
+      color: #7e9fff;
+    }
+
+    .code-card .green {
+      color: #69d5bd;
+    }
+
+
+    /* =====================================================
+       SEÇÕES
+    ===================================================== */
+
+    section:not(.hero) {
+      position: relative;
+    }
+
+    .section {
+      padding: 125px 0;
+    }
+
+    .section-label {
+      color: #91a0b7;
+
+      font:
+        10px
+        "DM Mono",
+        monospace;
+
+      letter-spacing: .16em;
+    }
+
+    .section h2 {
+      margin-top: 14px;
+
+      font-size:
+        clamp(
+          35px,
+          5vw,
+          66px
+        );
+
+      line-height: 1.02;
+
+      letter-spacing: -.055em;
+    }
+
+    .section h2 span {
+      color: var(--blue);
+    }
+
+
+    /* =====================================================
+       CONTADOR
+    ===================================================== */
+
+    .countdown-section {
+      padding: 50px 0;
+
+      background: #080b11;
+
+      border-block:
+        1px solid
+        var(--line);
+    }
+
+    .countdown-header {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: end;
+
+      gap: 30px;
+
+      margin-bottom: 30px;
+    }
+
+    .countdown-header p {
+      max-width: 370px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.7;
+    }
+
+    .countdown {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      border: 1px solid var(--line);
+    }
+
+    .count-box {
+      min-height: 135px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border-right:
+        1px solid
+        var(--line);
+
+      background:
+        rgba(255,255,255,.015);
+    }
+
+    .count-box:last-child {
+      border: 0;
+    }
+
+    .count-box strong {
+      font:
+        500
+        clamp(40px,5vw,68px)
+        var(--font-mono);
+
+      letter-spacing: -.08em;
+    }
+
+    .count-box small {
+      margin-top: 8px;
+
+      color: #667388;
+
+      font:
+        9px
+        "DM Mono",
+        monospace;
+
+      letter-spacing: .15em;
+    }
+
+
+    /* =====================================================
+       SOBRE
+    ===================================================== */
+
+    .about {
+      background:
+        linear-gradient(
+          180deg,
+          #05070b,
+          #080c13
+        );
+    }
+
+    .about-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1.1fr;
+
+      gap: 100px;
+    }
+
+    .about-text {
+      color: var(--muted);
+
+      font-size: 15px;
+
+      line-height: 1.9;
+    }
+
+    .about-text .big {
+      color: #d6dce5;
+
+      font-size: 19px;
+
+      line-height: 1.75;
+
+      margin-bottom: 20px;
+    }
+
+    .text-link {
+      display: inline-flex;
+
+      margin-top: 20px;
+
+      padding-bottom: 8px;
+
+      border-bottom:
+        1px solid #34445d;
+
+      font:
+        10px
+        "DM Mono",
+        monospace;
+
+      letter-spacing: .1em;
+    }
+
+
+    /* PILARES */
+
+    .pillars {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      margin-top: 80px;
+
+      border:
+        1px solid
+        var(--line);
+    }
+
+    .pillar {
+      min-height: 260px;
+
+      padding: 28px;
+
+      border-right:
+        1px solid
+        var(--line);
+
+      background:
+        rgba(255,255,255,.018);
+
+      transition: .3s;
+    }
+
+    .pillar:last-child {
+      border: 0;
+    }
+
+    .pillar:hover {
+      transform: translateY(-6px);
+
+      background:
+        rgba(78,140,255,.06);
+    }
+
+    .pillar-number {
+      color: var(--blue);
+
+      font:
+        10px
+        "DM Mono",
+        monospace;
+    }
+
+    .pillar-line {
+      width: 40px;
+      height: 1px;
+
+      margin: 35px 0 20px;
+
+      background: #34445c;
+    }
+
+    .pillar h3 {
+      font-size: 14px;
+
+      margin-bottom: 12px;
+    }
+
+    .pillar p {
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.7;
+    }
+
+
+    /* =====================================================
+       HISTÓRIA
+    ===================================================== */
+
+    .history {
+      padding: 95px 0;
+
+      background: #090d14;
+
+      border-block:
+        1px solid
+        var(--line);
+    }
+
+    .years {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      margin-top: 40px;
+
+      border:
+        1px solid
+        var(--line);
+    }
+
+    .year {
+      min-height: 180px;
+
+      padding: 30px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: space-between;
+
+      border-right:
+        1px solid
+        var(--line);
+
+      background: #0b111a;
+    }
+
+    .year:last-child {
+      border: 0;
+    }
+
+    .year span {
+      color: #667388;
+
+      font:
+        9px
+        "DM Mono",
+        monospace;
+
+      letter-spacing: .15em;
+    }
+
+    .year strong {
+      color: #718096;
+
+      font:
+        400
+        clamp(45px,6vw,78px)
+        "DM Mono",
+        monospace;
+    }
+
+    .year.active {
+      background:
+        linear-gradient(
+          135deg,
+          rgba(78,140,255,.13),
+          rgba(141,92,255,.05)
+        );
+    }
+
+    .year.active strong {
+      color: white;
+    }
+
+    .current {
+      color: var(--cyan);
+
+      font:
+        8px
+        "DM Mono",
+        monospace;
+    }
+
+
+    /* =====================================================
+       EDIÇÕES
+    ===================================================== */
+
+    .editions {
+      background: #05070b;
+    }
+
+    .edition-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 30px 0 20px;
+    }
+
+    .edition-tab {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      color: #8e9bb1;
+      padding: 12px 18px;
+      cursor: pointer;
+      font: 10px "DM Mono", monospace;
+      letter-spacing: .12em;
+      transition: .25s;
+    }
+
+    .edition-tab.active,
+    .edition-tab:hover {
+      background: rgba(78,140,255,.12);
+      border-color: rgba(78,140,255,.5);
+      color: white;
+    }
+
+    .edition-panel {
+      display: none;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(13,18,27,.9), rgba(7,10,15,.9));
+      padding: 28px;
+    }
+
+    .edition-panel.active {
+      display: block;
+    }
+
+    .edition-page {
+      display: grid;
+      gap: 22px;
+    }
+
+    .edition-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .edition-kicker {
+      color: #89a0bf;
+      font: 9px "DM Mono", monospace;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .edition-header h3 {
+      margin-top: 8px;
+      font-size: clamp(32px, 4vw, 58px);
+      letter-spacing: -.05em;
+    }
+
+    .edition-summary {
+      max-width: 420px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .edition-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .edition-stat {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      padding: 18px 16px;
+      text-align: center;
+      width: 100%;
+      cursor: pointer;
+      transition: .25s;
+      color: inherit;
+    }
+
+    .edition-stat:hover,
+    .edition-stat.active {
+      border-color: rgba(78,140,255,.5);
+      background: rgba(78,140,255,.12);
+    }
+
+    .edition-stat strong {
+      display: block;
+      font: 500 30px "DM Mono", monospace;
+      color: white;
+    }
+
+    .edition-stat span {
+      color: var(--muted);
+      font: 9px "DM Mono", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .edition-list-panel {
+      display: none;
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      padding: 18px 20px;
+    }
+
+    .edition-list-panel.active {
+      display: block;
+    }
+
+    .edition-item-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .edition-item-list li {
+      color: var(--muted);
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      padding-bottom: 10px;
+      line-height: 1.7;
+    }
+
+    .edition-item-list li:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .project-list-item {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      text-align: left;
+      padding: 0 0 10px;
+      cursor: pointer;
+      transition: .2s ease;
+      line-height: 1.7;
+      font: inherit;
+    }
+
+    .project-list-item:hover,
+    .project-list-item:focus-visible {
+      color: white;
+      outline: none;
+    }
+
+    .edition-layout {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 18px;
+    }
+
+    .edition-main,
+    .edition-side {
+      display: grid;
+      gap: 18px;
+    }
+
+    .edition-card {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.015);
+      padding: 22px;
+    }
+
+    .edition-card h4 {
+      margin-bottom: 16px;
+      font-size: 13px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #dfe9f8;
+    }
+
+    .edition-list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .edition-list li {
+      color: var(--muted);
+      line-height: 1.7;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      padding-bottom: 8px;
+    }
+
+    .edition-list li:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .speaker-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .speaker-item {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+
+    .speaker-item:last-child {
+      border-bottom: 0;
+    }
+
+    .speaker-item strong {
+      display: block;
+      color: #dfe9f8;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    .speaker-item span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .photo-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .photo-box {
+      min-height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, #0b111a, #080b11);
+      color: #71839a;
+      text-align: center;
+      font: 8px "DM Mono", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 10px;
+    }
+
+    .organizer-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .organizer-card {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      padding: 14px 12px 10px;
+      text-align: center;
+    }
+
+    .organizer-photo {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      border: 1px solid rgba(78,140,255,.5);
+      background: linear-gradient(135deg, rgba(78,140,255,.18), rgba(141,92,255,.06));
+      display: grid;
+      place-items: center;
+      color: #dfe9f8;
+      font: 10px "DM Mono", monospace;
+      letter-spacing: .06em;
+    }
+
+    .organizer-card strong {
+      display: block;
+      color: #edf3ff;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .organizer-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .organizers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .organizer-tag {
+      background: rgba(78,140,255,.08);
+      border: 1px solid rgba(78,140,255,.35);
+      color: #dfe9f8;
+      padding: 9px 12px;
+      font: 9px "DM Mono", monospace;
+      letter-spacing: .08em;
+    }
+
+    @media(max-width: 760px) {
+      .edition-layout,
+      .edition-stats,
+      .edition-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .edition-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .photo-strip,
+      .organizer-gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .project-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(3, 6, 12, .78);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      padding: 24px;
+    }
+
+    .project-modal-backdrop.active {
+      display: flex;
+    }
+
+    .project-modal {
+      position: relative;
+      width: min(820px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(12,17,25,.98), rgba(7,10,15,.98));
+      box-shadow: 0 25px 80px rgba(0,0,0,.45);
+      padding: 28px 28px 22px;
+    }
+
+    .project-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: white;
+      width: 36px;
+      height: 36px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .project-modal-kicker {
+      color: #8da4c3;
+      font: 9px "DM Mono", monospace;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .project-modal h4 {
+      margin: 0 0 18px;
+      font-size: clamp(24px, 3vw, 42px);
+      letter-spacing: -.04em;
+      line-height: 1.1;
+    }
+
+    .project-modal-body {
+      display: grid;
+      gap: 18px;
+    }
+
+    .project-modal p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .project-modal-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .project-modal-meta span {
+      border: 1px solid rgba(78,140,255,.35);
+      background: rgba(78,140,255,.08);
+      color: #dfe9f8;
+      padding: 9px 12px;
+      font: 9px "DM Mono", monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .project-modal-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .project-modal-photo {
+      min-height: 150px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(78,140,255,.12), rgba(141,92,255,.08));
+      color: #dfe9f8;
+      font: 9px "DM Mono", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 12px;
+    }
+
+    @media(max-width: 700px) {
+      .project-modal-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* =====================================================
+       EIXOS
+    ===================================================== */
+
+    .axes {
+      background: #05070b;
+    }
+
+    .section-header {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: end;
+
+      gap: 50px;
+
+      margin-bottom: 50px;
+    }
+
+    .section-header p {
+      max-width: 370px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.7;
+    }
+
+    .axis-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap: 12px;
+    }
+
+    .axis {
+      min-height: 330px;
+
+      padding: 25px;
+
+      position: relative;
+
+      border:
+        1px solid
+        var(--line);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.025),
+          transparent
+        );
+
+      transition: .35s;
+    }
+
+    .axis:hover {
+      transform: translateY(-7px);
+
+      border-color:
+        rgba(78,140,255,.45);
+    }
+
+    .axis-number {
+      color: #6e7c91;
+
+      font:
+        10px
+        "DM Mono",
+        monospace;
+    }
+
+    .axis-icon {
+      color: var(--blue);
+
+      float: right;
+
+      font-size: 23px;
+    }
+
+    .axis h3 {
+      margin-top: 80px;
+
+      font-size: 14px;
+    }
+
+    .axis p {
+      color: var(--muted);
+
+      margin-top: 15px;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+    }
+
+
+    /* =====================================================
+       PROGRAMAÇÃO
+    ===================================================== */
+
+    .schedule {
+      background: #090d14;
+    }
+
+    .empty-box {
+      min-height: 270px;
+
+      padding: 40px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      align-items: center;
+
+      text-align: center;
+
+      border:
+        1px dashed
+        #29374b;
+
+      background:
+        rgba(78,140,255,.025);
+    }
+
+    .empty-box .icon {
+      font-size: 35px;
+
+      color: var(--blue);
+    }
+
+    .empty-box h3 {
+      margin-top: 18px;
+    }
+
+    .empty-box p {
+      max-width: 580px;
+
+      margin-top: 10px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.7;
+    }
+
+    .schedule-tabs {
+      display: flex;
+
+      margin-top: 22px;
+
+      border:
+        1px solid
+        var(--line);
+    }
+
+    .schedule-tabs span {
+      padding: 11px 20px;
+
+      color: #76859a;
+
+      font:
+        9px
+        "DM Mono",
+        monospace;
+    }
+
+
+    /* =====================================================
+       TRABALHOS
+    ===================================================== */
+
+    .papers {
+      background: #05070b;
+    }
+
+    .filters {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 7px;
+
+      margin-bottom: 25px;
+    }
+
+    .filter {
+      padding: 10px 13px;
+
+      border:
+        1px solid
+        var(--line);
+
+      background: transparent;
+
+      color: #718096;
+
+      cursor: pointer;
+
+      font:
+        9px
+        "DM Mono",
+        monospace;
+    }
+
+    .filter.active,
+    .filter:hover {
+      color: white;
+
+      border-color:
+        rgba(78,140,255,.5);
+
+      background:
+        rgba(78,140,255,.12);
+    }
+
+
+    /* =====================================================
+       NETWORK
+    ===================================================== */
+
+    .network {
+      min-height: 700px;
+
+      display: flex;
+
+      align-items: center;
+
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at 70% 50%,
+          rgba(78,140,255,.1),
+          transparent 30%
+        ),
+        #05070b;
+    }
+
+    .network-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      align-items: center;
+
+      gap: 70px;
+    }
+
+    .network h2 {
+      font-size:
+        clamp(
+          36px,
+          5vw,
+          65px
+        );
+
+      line-height: 1.02;
+
+      letter-spacing: -.055em;
+    }
+
+    .network h2 span {
+      color: var(--blue);
+    }
+
+    .network-text {
+      margin-top: 25px;
+
+      max-width: 470px;
+
+      color: var(--muted);
+
+      line-height: 1.8;
+    }
+
+    .network-map {
+      height: 470px;
+
+      position: relative;
+    }
+
+    .network-circle {
+      position: absolute;
+
+      width: 520px;
+      height: 520px;
+
+      top: 50%;
+      left: 50%;
+
+      transform:
+        translate(-50%,-50%);
+
+      border:
+        1px solid
+        rgba(78,140,255,.13);
+
+      border-radius: 50%;
+    }
+
+    .network-center {
+      width: 120px;
+      height: 120px;
+
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      transform:
+        translate(-50%,-50%);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border:
+        1px solid
+        rgba(78,140,255,.6);
+
+      border-radius: 50%;
+
+      background:
+        rgba(10,16,27,.85);
+
+      box-shadow:
+        0 0 70px
+        rgba(78,140,255,.15);
+
+      font:
+        12px
+        "DM Mono",
+        monospace;
+    }
+
+    .node {
+      position: absolute;
+
+      color: #a8b4c5;
+
+      font:
+        9px
+        "DM Mono",
+        monospace;
+
+      letter-spacing: .08em;
+    }
+
+    .node::before {
+      content: "";
+
+      width: 7px;
+      height: 7px;
+
+      display: inline-block;
+
+      margin-right: 8px;
+
+      border-radius: 50%;
+
+      background: var(--blue);
+
+      box-shadow:
+        0 0 12px var(--blue);
+    }
+
+    .node1 { left: 3%; top: 12%; }
+    .node2 { right: 2%; top: 18%; }
+    .node3 { left: 0; bottom: 22%; }
+    .node4 { right: 0; bottom: 15%; }
+    .node5 { left: 30%; top: 0; }
+    .node6 { right: 27%; bottom: 0; }
+
+
+    /* =====================================================
+       IFRS
+    ===================================================== */
+
+    .ifrs {
+      background: #090d14;
+    }
+
+    .ifrs-grid {
+      display: grid;
+
+      grid-template-columns:
+        1.1fr .9fr;
+
+      gap: 90px;
+
+      align-items: center;
+    }
+
+    .campus {
+      min-height: 480px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      border:
+        1px solid
+        var(--line);
+
+      background:
+        linear-gradient(
+          135deg,
+          #111b2b,
+          #080b11
+        );
+    }
+
+    .campus::before {
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        linear-gradient(
+          140deg,
+          transparent 35%,
+          rgba(78,140,255,.18) 36%,
+          transparent 37%
+        ),
+        linear-gradient(
+          40deg,
+          transparent 55%,
+          rgba(141,92,255,.12) 56%,
+          transparent 57%
+        );
+    }
+
+    .campus::after {
+      content: "IFRS";
+
+      position: absolute;
+
+      right: -20px;
+      bottom: -35px;
+
+      color:
+        rgba(255,255,255,.025);
+
+      font-size: 180px;
+
+      font-weight: 800;
+    }
+
+    .campus-info {
+      position: absolute;
+
+      left: 30px;
+      bottom: 30px;
+    }
+
+    .campus-info small {
+      color: var(--blue);
+
+      font:
+        10px
+        "DM Mono",
+        monospace;
+    }
+
+    .campus-info strong {
+      display: block;
+
+      margin: 5px 0;
+
+      font-size: 36px;
+    }
+
+    .campus-info span {
+      color: #77869b;
+
+      font:
+        9px
+        "DM Mono",
+        monospace;
+    }
+
+    .ifrs-text {
+      color: var(--muted);
+
+      line-height: 1.9;
+
+      font-size: 14px;
+
+      margin: 25px 0;
+    }
+
+    .ifrs-pillars {
+      display: flex;
+
+      gap: 8px;
+
+      margin-bottom: 30px;
+    }
+
+    .ifrs-pillar {
+      flex: 1;
+
+      padding: 18px;
+
+      border:
+        1px solid
+        var(--line);
+
+      color: #8592a6;
+
+      font:
+        9px
+        "DM Mono",
+        monospace;
+    }
+
+
+    /* =====================================================
+       GALERIA
+    ===================================================== */
+
+    .gallery {
+      background: #05070b;
+    }
+
+    .gallery-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      grid-auto-rows: 190px;
+
+      gap: 10px;
+    }
+
+    .gallery-item {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border:
+        1px solid
+        var(--line);
+
+      background:
+        linear-gradient(
+          135deg,
+          #0b111a,
+          #080b11
+        );
+
+      color: #68768b;
+
+      text-align: center;
+    }
+
+    .gallery-item:first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .gallery-item:nth-child(4) {
+      grid-column: span 2;
+    }
+
+    .gallery-content span {
+      display: block;
+
+      margin-top: 10px;
+
+      color: #8997aa;
+
+      font:
+        10px
+        "DM Mono",
+        monospace;
+
+      letter-spacing: .12em;
+    }
+
+    .gallery-content small {
+      display: block;
+
+      margin-top: 5px;
+
+      color: #4e5b6e;
+
+      font:
+        7px
+        var(--font-mono);
+    }
+
+
+    /* =====================================================
+       CTA
+    ===================================================== */
+
+    .cta {
+      min-height: 580px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      position: relative;
+
+      overflow: hidden;
+
+      text-align: center;
+
+      background:
+        linear-gradient(
+          130deg,
+          #07101d,
+          #0a0715
+        );
+    }
+
+    .cta::before {
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      opacity: .13;
+
+      background-image:
+        linear-gradient(
+          rgba(78,140,255,.4) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(78,140,255,.4) 1px,
+          transparent 1px
+        );
+
+      background-size: 60px 60px;
+    }
+
+    .cta-content {
+      position: relative;
+
+      z-index: 2;
+    }
+
+    .cta h2 {
+      margin-top: 15px;
+
+      font-size:
+        clamp(
+          45px,
+          7vw,
+          88px
+        );
+
+      line-height: 1;
+
+      letter-spacing: -.055em;
+    }
+
+    .cta h2 span {
+      color: transparent;
+
+      -webkit-text-stroke:
+        1px white;
+    }
+
+    .cta p {
+      max-width: 580px;
+
+      margin: 25px auto 30px;
+
+      color: #9ba7b8;
+
+      line-height: 1.8;
+    }
+
+    .cta .buttons {
+      justify-content: center;
+    }
+
+
+    /* =====================================================
+       LOCALIZAÇÃO
+    ===================================================== */
+
+    .location {
+      padding: 120px 0;
+
+      background: #090d14;
+    }
+
+    .location-grid {
+      display: grid;
+
+      grid-template-columns:
+        .8fr 1.2fr;
+
+      gap: 80px;
+
+      align-items: center;
+    }
+
+    .address {
+      margin: 35px 0 15px;
+
+      padding: 22px;
+
+      border:
+        1px solid
+        var(--line);
+
+      color: #a8b4c5;
+
+      line-height: 1.7;
+    }
+
+    .map {
+      min-height: 390px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 10px;
+
+      border:
+        1px solid
+        var(--line);
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(78,140,255,.09),
+          transparent 45%
+        ),
+        #070a10;
+
+      color: #66758a;
+    }
+
+    .map strong {
+      color: #b5c0cf;
+
+      font:
+        12px
+        "DM Mono",
+        monospace;
+    }
+
+    .map span {
+      font:
+        8px
+        "DM Mono",
+        monospace;
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    footer {
+      padding: 65px 0 20px;
+
+      background: #04060a;
+
+      border-top:
+        1px solid
+        var(--line);
+    }
+
+    .footer-top {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 70px;
+    }
+
+    .footer-description {
+      margin-top: 25px;
+
+      color: #68768b;
+
+      font-size: 11px;
+
+      line-height: 1.8;
+    }
+
+    .footer-links {
+      display: flex;
+
+      gap: 80px;
+    }
+
+    .footer-links div {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 11px;
+    }
+
+    .footer-links strong {
+      color: #4e5b6e;
+
+      font:
+        8px
+        "DM Mono",
+        monospace;
+
+      letter-spacing: .15em;
+    }
+
+    .footer-links a {
+      color: #8290a4;
+
+      font:
+        9px
+        "DM Mono",
+        monospace;
+    }
+
+    .footer-bottom {
+      margin-top: 55px;
+
+      padding-top: 18px;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      border-top:
+        1px solid
+        var(--line);
+
+      color: #465366;
+
+      font:
+        8px
+        "DM Mono",
+        monospace;
+    }
+
+
+    /* =====================================================
+       ANIMAÇÃO
+    ===================================================== */
+
+    .reveal {
+      opacity: 0;
+
+      transform:
+        translateY(25px);
+
+      transition:
+        .75s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+
+      transform:
+        translateY(0);
+    }
+
+
+    /* =====================================================
+       RESPONSIVO
+    ===================================================== */
+
+    @media(max-width: 1000px) {
+
+      .nav-links {
+        gap: 13px;
+      }
+
+      .hero {
+        padding-left: 5%;
+      }
+
+      .code-card {
+        opacity: .3;
+      }
+
+      .axis-grid {
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .about-grid,
+      .ifrs-grid,
+      .network-grid,
+      .location-grid {
+        grid-template-columns: 1fr;
+
+        gap: 50px;
+      }
+
+      .network-map {
+        max-width: 600px;
+
+        width: 100%;
+
+        margin: auto;
+      }
+    }
+
+
+    @media(max-width: 760px) {
+
+      .container {
+        width:
+          calc(100% - 30px);
+      }
+
+      .navbar {
+        padding: 0 17px;
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+
+        top: 78px;
+
+        left: 12px;
+        right: 12px;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        padding: 15px;
+
+        background:
+          rgba(7,10,15,.97);
+
+        border:
+          1px solid
+          var(--line);
+
+        backdrop-filter:
+          blur(20px);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding: 13px 10px;
+      }
+
+      .nav-cta {
+        text-align: center;
+      }
+
+      .hero {
+        min-height: 850px;
+
+        padding:
+          130px
+          20px
+          90px;
+      }
+
+      .hero h1 {
+        font-size:
+          clamp(
+            40px,
+            13vw,
+            62px
+          );
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .code-card {
+        display: none;
+      }
+
+      .countdown-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+      }
+
+      .countdown {
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .count-box {
+        min-height: 105px;
+
+        border-bottom:
+          1px solid
+          var(--line);
+      }
+
+      .count-box:nth-child(2) {
+        border-right: 0;
+      }
+
+      .count-box:nth-child(3),
+      .count-box:nth-child(4) {
+        border-bottom: 0;
+      }
+
+      .section {
+        padding: 85px 0;
+      }
+
+      .pillars,
+      .years,
+      .axis-grid,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pillar {
+        border-right: 0;
+
+        border-bottom:
+          1px solid
+          var(--line);
+      }
+
+      .year {
+        border-right: 0;
+
+        border-bottom:
+          1px solid
+          var(--line);
+      }
+
+      .axis {
+        min-height: 280px;
+      }
+
+      .network {
+        min-height: 850px;
+      }
+
+      .network-map {
+        height: 420px;
+
+        transform:
+          scale(.82);
+      }
+
+      .network-circle {
+        width: 420px;
+        height: 420px;
+      }
+
+      .ifrs-pillars {
+        flex-direction: column;
+      }
+
+      .campus {
+        min-height: 350px;
+      }
+
+      .gallery-item,
+      .gallery-item:first-child,
+      .gallery-item:nth-child(4) {
+        grid-column: auto;
+        grid-row: auto;
+
+        min-height: 220px;
+      }
+
+      .footer-top {
+        flex-direction: column;
+      }
+
+      .footer-links {
+        gap: 35px;
+        flex-wrap: wrap;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+
+        gap: 10px;
+      }
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar" id="navbar">
+
+  <a href="#inicio" class="brand">
+
+    <div class="brand-mark">
+      <span>M</span>
+    </div>
+
+    <div class="brand-text">
+      <strong>MICOMP</strong>
+      <small>IFRS • IBIRUBÁ</small>
+    </div>
+
+  </a>
+
+
+  <nav class="nav-links" id="navLinks">
+
+    <a href="#inicio">INÍCIO</a>
+    <a href="#sobre">SOBRE</a>
+    <a href="#programacao">PROGRAMAÇÃO</a>
+    <a href="#eixos">EIXOS</a>
+    <a href="#trabalhos">TRABALHOS</a>
+    <a href="#palestras">PALESTRAS</a>
+    <a href="#network">NETWORK</a>
+    <a href="#ifrs">IFRS</a>
+
+    <a href="#participar" class="nav-cta">
+      PARTICIPE →
+    </a>
+
+  </nav>
+
+
+  <button
+    class="menu-button"
+    onclick="toggleMenu()"
+    aria-label="Abrir menu"
+  >
+    ☰
+  </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero" id="inicio">
+
+  <div class="orbit one"></div>
+  <div class="orbit two"></div>
+
+  <div class="hero-glow"></div>
+
+
+  <div class="hero-content">
+
+    <div class="eyebrow reveal">
+      <span class="status"></span>
+      EVENTO ACADÊMICO • COMPUTAÇÃO • INOVAÇÃO
+    </div>
+
+
+    <div class="hero-kicker reveal">
+
+      <span>MICOMP</span>
+
+      <b>2026</b>
+
+    </div>
+
+
+    <h1 class="reveal">
+
+      TECNOLOGIA QUE
+      <span>CONECTA.</span>
+
+      <br>
+
+      IDEIAS QUE
+      <span>TRANSFORMAM.</span>
+
+    </h1>
+
+
+    <p class="hero-description reveal">
+
+      Um espaço para ciência, inovação, pesquisa,
+      tecnologia e conexão entre estudantes,
+      professores, profissionais e comunidade.
+
+    </p>
+
+
+    <div class="hero-meta reveal">
+
+      <div>
+        ◷ &nbsp; 7 DE DEZEMBRO DE 2026
+      </div>
+
+      <div>
+        ◉ &nbsp; IFRS — CAMPUS IBIRUBÁ
+      </div>
+
+    </div>
+
+
+    <div class="buttons reveal">
+
+      <a
+        href="#sobre"
+        class="btn btn-primary"
+      >
+        CONHEÇA A MICOMP →
+      </a>
+
+      <a
+        href="#programacao"
+        class="btn btn-outline"
+      >
+        ▶ &nbsp; VER PROGRAMAÇÃO
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <div class="code-card">
+
+    <span>01</span>
+
+    <br>
+
+    <span class="blue">const</span>
+    future = {
+
+    <br>
+
+    &nbsp;&nbsp;science:
+    <span class="green">true</span>,
+
+    <br>
+
+    &nbsp;&nbsp;innovation:
+    <span class="green">true</span>,
+
+    <br>
+
+    &nbsp;&nbsp;community:
+    <span class="green">true</span>
+
+    <br>
+
+    };
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CONTADOR
+===================================================== -->
+
+<section class="countdown-section">
+
+  <div class="container">
+
+    <div class="countdown-header reveal">
+
+      <div>
+
+        <span class="section-label">
+          MICOMP 2026
+        </span>
+
+        <h2>
+          O FUTURO TEM
+          <span style="color:var(--blue)">
+            DATA.
+          </span>
+        </h2>
+
+      </div>
+
+
+      <p>
+        Prepare-se para um encontro de
+        conhecimento, tecnologia e conexões.
+      </p>
+
+    </div>
+
+
+    <div class="countdown reveal">
+
+      <div class="count-box">
+        <strong id="days">00</strong>
+        <small>DIAS</small>
+      </div>
+
+      <div class="count-box">
+        <strong id="hours">00</strong>
+        <small>HORAS</small>
+      </div>
+
+      <div class="count-box">
+        <strong id="minutes">00</strong>
+        <small>MINUTOS</small>
+      </div>
+
+      <div class="count-box">
+        <strong id="seconds">00</strong>
+        <small>SEGUNDOS</small>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SOBRE
+===================================================== -->
+
+<section
+  class="section about"
+  id="sobre"
+>
+
+  <div class="container">
+
+
+    <div class="about-grid">
+
+      <div class="reveal">
+
+        <span class="section-label">
+          01 / SOBRE
+        </span>
+
+        <h2>
+          MAIS QUE UM EVENTO.
+          <br>
+          UMA
+          <span>EXPERIÊNCIA.</span>
+        </h2>
+
+      </div>
+
+
+      <div class="about-text reveal">
+
+        <p class="big">
+
+          A MICOMP é a Mostra Interdisciplinar
+          de Computação do IFRS Campus Ibirubá,
+          um evento dedicado à divulgação científica,
+          à inovação e à troca de conhecimentos
+          entre estudantes, professores e comunidade.
+
+        </p>
+
+
+        <p>
+
+          Um ambiente pensado para aproximar
+          diferentes perspectivas, apresentar
+          projetos e pesquisas e criar novas
+          possibilidades por meio da computação.
+
+        </p>
+
+
+        <a
+          href="#eixos"
+          class="text-link"
+        >
+          EXPLORAR OS EIXOS →
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="pillars">
+
+      <article class="pillar reveal">
+
+        <span class="pillar-number">
+          01
+        </span>
+
+        <div class="pillar-line"></div>
+
+        <h3>
+          DIVULGAÇÃO CIENTÍFICA
+        </h3>
+
+        <p>
+          Projetos, pesquisas e experiências
+          desenvolvidas no campus.
+        </p>
+
+      </article>
+
+
+      <article class="pillar reveal">
+
+        <span class="pillar-number">
+          02
+        </span>
+
+        <div class="pillar-line"></div>
+
+        <h3>
+          INOVAÇÃO E TECNOLOGIA
+        </h3>
+
+        <p>
+          Debates e demonstrações sobre
+          soluções que transformam a computação
+          e a sociedade.
+        </p>
+
+      </article>
+
+
+      <article class="pillar reveal">
+
+        <span class="pillar-number">
+          03
+        </span>
+
+        <div class="pillar-line"></div>
+
+        <h3>
+          INTEGRAÇÃO ACADÊMICA
+        </h3>
+
+        <p>
+          Conexão entre estudantes,
+          docentes e visitantes.
+        </p>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     HISTÓRIA
+===================================================== -->
+
+<section class="history">
+
+  <div class="container">
+
+    <div class="reveal">
+
+      <span class="section-label">
+        02 / TRAJETÓRIA
+      </span>
+
+      <h2>
+        UMA IDEIA QUE
+        <span style="color:var(--blue)">
+          EVOLUI.
+        </span>
+      </h2>
+
+    </div>
+
+
+    <div class="years">
+
+      <div class="year reveal">
+
+        <span>MICOMP</span>
+
+        <strong>2024</strong>
+
+      </div>
+
+
+      <div class="year reveal">
+
+        <span>MICOMP</span>
+
+        <strong>2025</strong>
+
+      </div>
+
+
+      <div class="year active reveal">
+
+        <span>MICOMP</span>
+
+        <strong>2026</strong>
+
+        <small class="current">
+          EDIÇÃO ATUAL
+        </small>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     EDIÇÕES
+===================================================== -->
+
+<section class="section editions" id="edicoes">
+
+  <div class="container">
+
+    <div class="section-header reveal">
+
+      <div>
+
+        <span class="section-label">
+          02 / EDIÇÕES
+        </span>
+
+        <h2>
+          HISTÓRIA EM
+          <span>EDIÇÕES.</span>
+        </h2>
+
+      </div>
+
+      <p>
+        Acompanhe os destaques, atividades e a equipe de cada edição da MICOMP.
+      </p>
+
+    </div>
+
+    <div class="edition-tabs reveal" role="tablist" aria-label="Seleção de edição da MICOMP">
+      <button class="edition-tab active" data-year="2024" type="button">2024</button>
+      <button class="edition-tab" data-year="2025" type="button">2025</button>
+      <button class="edition-tab" data-year="2026" type="button">2026</button>
+    </div>
+
+    <div class="edition-panel active reveal" data-panel="2024">
+      <div class="edition-page">
+
+        <div class="edition-header">
+          <div>
+            <div class="edition-kicker">MICOMP • EDIÇÃO</div>
+            <h3>2024</h3>
+          </div>
+          <div class="edition-summary">
+            A edição de 2024 marcou a consolidação da mostra com projetos focados em inovação, apoio à educação e integração entre pesquisa, extensão e comunidade.
+          </div>
+        </div>
+
+        <div class="edition-stats">
+          <button class="edition-stat active" type="button" data-year="2024" data-target="projetos">
+            <strong>12</strong>
+            <span>Projetos</span>
+          </button>
+          <button class="edition-stat" type="button" data-year="2024" data-target="atividades">
+            <strong>05</strong>
+            <span>Atividades</span>
+          </button>
+          <button class="edition-stat" type="button" data-year="2024" data-target="palestras">
+            <strong>08</strong>
+            <span>Palestras</span>
+          </button>
+          <button class="edition-stat" type="button" data-year="2024" data-target="voluntarios">
+            <strong>18</strong>
+            <span>Voluntários</span>
+          </button>
+        </div>
+
+        <div class="edition-list-panel active" data-year="2024" data-target="projetos">
+          <ul class="edition-item-list">
+            <li>01. Sensor inteligente para monitoramento de produção agrícola.</li>
+            <li>02. Sistema visual para apoio à educação em robótica.</li>
+            <li>03. Plataforma de análise de dados aplicada ao ensino.</li>
+            <li>04. Catálogo digital de projetos do campus.</li>
+            <li>05. Ferramenta de apoio à gestão de eventos acadêmicos.</li>
+            <li>06. Modelo de inteligência artificial para identificação de padrões.</li>
+            <li>07. Aplicativo para apoio pedagógico com realidade aumentada.</li>
+            <li>08. Ambiente de simulação para laboratório de eletrônica.</li>
+            <li>09. Monitoramento de consumo energético em espaços institucionais.</li>
+            <li>10. Dashboard interativo para dados de pesquisa.</li>
+            <li>11. Sistema para organização de atividades de extensão.</li>
+            <li>12. Solução de apoio à comunicação e disseminação científica.</li>
+          </ul>
+        </div>
+
+        <div class="edition-list-panel" data-year="2024" data-target="atividades">
+          <ul class="edition-item-list">
+            <li>01. Abertura oficial com apresentação institucional da MICOMP.</li>
+            <li>02. Mostra de projetos de extensão e pesquisa.</li>
+            <li>03. Rodas de conversa sobre inovação e computação.</li>
+            <li>04. Visitas técnicas e apresentação de laboratórios.</li>
+            <li>05. Encerramento com premiações e exposição dos trabalhos.</li>
+          </ul>
+        </div>
+
+        <div class="edition-list-panel" data-year="2024" data-target="palestras">
+          <ul class="edition-item-list">
+            <li>01. Inovação e computação aplicada à educação.</li>
+            <li>02. IA e análise de dados para tomada de decisão.</li>
+            <li>03. Pesquisa interdisciplinar em tecnologia e sociedade.</li>
+            <li>04. Fundamentos de desenvolvimento de software.</li>
+            <li>05. Transformação digital no ambiente acadêmico.</li>
+            <li>06. Automação e robótica educacional.</li>
+            <li>07. Sustentabilidade e soluções tecnológicas.</li>
+            <li>08. Novas frentes de pesquisa em computação.</li>
+          </ul>
+        </div>
+
+        <div class="edition-list-panel" data-year="2024" data-target="voluntarios">
+          <ul class="edition-item-list">
+            <li>01. Ana Paula — logística e apoio ao público.</li>
+            <li>02. Bruno Souza — operacional de stands.</li>
+            <li>03. Carina Rocha — recepção e acolhimento.</li>
+            <li>04. Daniel Costa — suporte em sala de palestras.</li>
+            <li>05. Elisa Nunes — comunicação e redes sociais.</li>
+            <li>06. Felipe Moraes — organização da programação.</li>
+            <li>07. Gabriela Lima — apoio geral.</li>
+            <li>08. Henrique Alves — suporte técnico.</li>
+            <li>09. Ingrid Siqueira — materiais e recursos.</li>
+            <li>10. João Pedro — atendimento ao público.</li>
+            <li>11. Karina Martins — produção visual.</li>
+            <li>12. Lucas Farias — logística do evento.</li>
+            <li>13. Mariana Duarte — apoio acadêmico.</li>
+            <li>14. Nathan Beltrão — apoio em laboratório.</li>
+            <li>15. Otávio Reis — organização de atividades.</li>
+            <li>16. Paula Nóbrega — apoio geral.</li>
+            <li>17. Rafael Mota — suporte operacional.</li>
+            <li>18. Sara Della — acolhimento e comunicação.</li>
+          </ul>
+        </div>
+
+        <div class="edition-layout">
+          <div class="edition-main">
+            <div class="edition-card">
+              <h4>Projetos</h4>
+              <ul class="edition-list">
+                <li>Aplicativo para monitoramento de produção agrícola com IA.</li>
+                <li>Sistema visual para apoio à educação em robótica educacional.</li>
+                <li>Análise de dados aplicada ao ensino profissionalizante.</li>
+              </ul>
+            </div>
+
+            <div class="edition-card">
+              <h4>Atividades</h4>
+              <ul class="edition-list">
+                <li>Mostra de projetos de extensão e pesquisa.</li>
+                <li>Rodas de conversa sobre inovação e computação.</li>
+                <li>Apresentações dos estudantes e visitas técnicas.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="edition-side">
+            <div class="edition-card">
+              <h4>Palestrantes</h4>
+              <div class="speaker-list">
+                <div class="speaker-item">
+                  <strong>Prof. Carla Mendes</strong>
+                  <span>Computação aplicada à educação.</span>
+                </div>
+                <div class="speaker-item">
+                  <strong>Dr. Rafael Tavares</strong>
+                  <span>IA e análise de dados para decisões.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="edition-card">
+              <h4>Organizadores</h4>
+              <div class="organizers">
+                <span class="organizer-tag">Coordenação</span>
+                <span class="organizer-tag">Comissão</span>
+                <span class="organizer-tag">Comunicação</span>
+                <span class="organizer-tag">Suporte</span>
+              </div>
+              <div class="organizer-gallery">
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Coordenador</strong>
+                  <span>Nome do responsável</span>
+                </div>
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Comissão</strong>
+                  <span>Nome da pessoa</span>
+                </div>
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Comunicação</strong>
+                  <span>Nome da pessoa</span>
+                </div>
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Logística</strong>
+                  <span>Nome da pessoa</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="edition-card">
+          <h4>Fotos e memória</h4>
+          <div class="photo-strip">
+            <div class="photo-box">Foto 01</div>
+            <div class="photo-box">Foto 02</div>
+            <div class="photo-box">Foto 03</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="edition-panel reveal" data-panel="2025">
+      <div class="edition-page">
+
+        <div class="edition-header">
+          <div>
+            <div class="edition-kicker">MICOMP • EDIÇÃO</div>
+            <h3>2025</h3>
+          </div>
+          <div class="edition-summary">
+            Em 2025, a mostra ampliou a participação de estudantes e parceiros, com foco em prototipagem, networking e projetos com impacto direto na comunidade acadêmica.
+          </div>
+        </div>
+
+        <div class="edition-stats">
+          <button class="edition-stat active" type="button" data-year="2025" data-target="projetos">
+            <strong>15</strong>
+            <span>Projetos</span>
+          </button>
+          <button class="edition-stat" type="button" data-year="2025" data-target="atividades">
+            <strong>06</strong>
+            <span>Atividades</span>
+          </button>
+          <button class="edition-stat" type="button" data-year="2025" data-target="palestras">
+            <strong>09</strong>
+            <span>Palestras</span>
+          </button>
+          <button class="edition-stat" type="button" data-year="2025" data-target="voluntarios">
+            <strong>22</strong>
+            <span>Voluntários</span>
+          </button>
+        </div>
+
+        <div class="edition-list-panel active" data-year="2025" data-target="projetos">
+          <ul class="edition-item-list">
+            <li>01. Dashboard inteligente para dados acadêmicos e gestão.</li>
+            <li>02. Plataforma de apoio a eventos universitários.</li>
+            <li>03. Sistema de auxílio à saúde com IA.</li>
+            <li>04. Aplicativo para apoio à aprendizagem prática.</li>
+            <li>05. Mapeamento digital de processos acadêmicos.</li>
+            <li>06. Ferramenta para análise de dados educacionais.</li>
+            <li>07. Ambiente de prototipagem para projetos de software.</li>
+            <li>08. Simulador de cenários para educação em tecnologia.</li>
+            <li>09. Interface inteligente para gestão de laboratórios.</li>
+            <li>10. Monitoramento de atendimento em ambientes acadêmicos.</li>
+            <li>11. Solução de automação para atividades administrativas.</li>
+            <li>12. Plataforma para divulgação de pesquisas e eventos.</li>
+            <li>13. Sistema de apoio à extensão universitária.</li>
+            <li>14. Visualização de indicadores de desempenho acadêmico.</li>
+            <li>15. Projeto de inovação em comunicação e interação digital.</li>
+          </ul>
+        </div>
+
+        <div class="edition-list-panel" data-year="2025" data-target="atividades">
+          <ul class="edition-item-list">
+            <li>01. Abertura com apresentação dos destaques da edição.</li>
+            <li>02. Minicursos e oficinas de prototipagem.</li>
+            <li>03. Apresentação de resultados de pesquisa.</li>
+            <li>04. Networking com professores e profissionais.</li>
+            <li>05. Sessão de projetos de extensão e inovação.</li>
+            <li>06. Encerramento com premiações e reconhecimento.</li>
+          </ul>
+        </div>
+
+        <div class="edition-list-panel" data-year="2025" data-target="palestras">
+          <ul class="edition-item-list">
+            <li>01. Desenvolvimento de software e inovação.</li>
+            <li>02. IA aplicada à educação.</li>
+            <li>03. Automação e ferramentas digitais.</li>
+            <li>04. Pesquisa aplicada em inteligência artificial.</li>
+            <li>05. Soluções tecnológicas para sociedade.</li>
+            <li>06. Tecnologias para gestão acadêmica.</li>
+            <li>07. UX e experiência digital.</li>
+            <li>08. Robótica e educação tecnológica.</li>
+            <li>09. Dados e transformação digital.</li>
+          </ul>
+        </div>
+
+        <div class="edition-list-panel" data-year="2025" data-target="voluntarios">
+          <ul class="edition-item-list">
+            <li>01. Júlia Mendes — comunicação.</li>
+            <li>02. Bruno Costa — apoio operacional.</li>
+            <li>03. Isabela Ramos — recepção.</li>
+            <li>04. Thiago Souza — suporte técnico.</li>
+            <li>05. Maria Helena — logística.</li>
+            <li>06. Pedro Nobre — organização dos espaços.</li>
+            <li>07. Vitoria Leal — apoio ao público.</li>
+            <li>08. Rafael Gomes — produção audiovisual.</li>
+            <li>09. Nathalia Cruz — material e recursos.</li>
+            <li>10. João Victor — suporte em palestras.</li>
+            <li>11. Beatriz Rocha — apoio à programação.</li>
+            <li>12. Eduardo Freitas — orientação dos visitantes.</li>
+            <li>13. Luan Ribeiro — logística externa.</li>
+            <li>14. Camila Viana — comunicação visual.</li>
+            <li>15. Gabriel Neves — apoio geral.</li>
+            <li>16. Tais Martins — suporte acadêmico.</li>
+            <li>17. Davi Sampaio — organização de estandes.</li>
+            <li>18. Renata Reis — apoio e cadastro.</li>
+            <li>19. Hudson Araújo — suporte operacional.</li>
+            <li>20. Vanessa Teixeira — logística de materiais.</li>
+            <li>21. Lucas Junior — apoio ao evento.</li>
+            <li>22. Priscila Andrade — apoio final.</li>
+          </ul>
+        </div>
+
+        <div class="edition-layout">
+          <div class="edition-main">
+            <div class="edition-card">
+              <h4>Projetos</h4>
+              <ul class="edition-list">
+                <li>Dashboard inteligente para dados acadêmicos e gestão.</li>
+                <li>Plataforma de apoio a eventos universitários.</li>
+                <li>Estudos sobre IA aplicada à saúde e educação.</li>
+              </ul>
+            </div>
+
+            <div class="edition-card">
+              <h4>Atividades</h4>
+              <ul class="edition-list">
+                <li>Minicursos e oficinas de prototipagem.</li>
+                <li>Apresentação de resultados de pesquisa.</li>
+                <li>Networking com professores e profissionais.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="edition-side">
+            <div class="edition-card">
+              <h4>Palestrantes</h4>
+              <div class="speaker-list">
+                <div class="speaker-item">
+                  <strong>Prof. Ana Lúcia</strong>
+                  <span>Desenvolvimento de software e inovação.</span>
+                </div>
+                <div class="speaker-item">
+                  <strong>Eng. Gustavo Silva</strong>
+                  <span>Automação e ferramentas digitais.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="edition-card">
+              <h4>Organizadores</h4>
+              <div class="organizers">
+                <span class="organizer-tag">Coordenadoria</span>
+                <span class="organizer-tag">Laboratórios</span>
+                <span class="organizer-tag">Marketing</span>
+                <span class="organizer-tag">Voluntários</span>
+              </div>
+              <div class="organizer-gallery">
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Coordenação</strong>
+                  <span>Nome da pessoa</span>
+                </div>
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Laboratório</strong>
+                  <span>Nome da pessoa</span>
+                </div>
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Marketing</strong>
+                  <span>Nome da pessoa</span>
+                </div>
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Voluntários</strong>
+                  <span>Equipe de apoio</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="edition-card">
+          <h4>Fotos e memória</h4>
+          <div class="photo-strip">
+            <div class="photo-box">Foto 01</div>
+            <div class="photo-box">Foto 02</div>
+            <div class="photo-box">Foto 03</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="project-modal-backdrop" id="projectModalBackdrop" aria-hidden="true">
+      <div class="project-modal" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+        <button class="project-modal-close" type="button" aria-label="Fechar projeto">×</button>
+        <div class="project-modal-kicker" id="projectModalYear">MICOMP • Projeto</div>
+        <h4 id="projectModalTitle">Nome do projeto</h4>
+        <div class="project-modal-body">
+          <p id="projectModalText">
+            Descrição do projeto será exibida aqui.
+          </p>
+          <div class="project-modal-meta" id="projectModalMeta"></div>
+          <div class="project-modal-gallery">
+            <div class="project-modal-photo">Foto 01</div>
+            <div class="project-modal-photo">Foto 02</div>
+            <div class="project-modal-photo">Foto 03</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="edition-panel reveal" data-panel="2026">
+      <div class="edition-page">
+
+        <div class="edition-header">
+          <div>
+            <div class="edition-kicker">MICOMP • EDIÇÃO</div>
+            <h3>2026</h3>
+          </div>
+          <div class="edition-summary">
+            A MICOMP 2026 coloca a tecnologia como ponte entre pesquisa, formação e transformação social, reunindo pessoas, ideias e soluções em um ambiente interdisciplinar.
+          </div>
+        </div>
+
+        <div class="edition-stats">
+          <button class="edition-stat active" type="button" data-year="2026" data-target="projetos">
+            <strong>18</strong>
+            <span>Projetos</span>
+          </button>
+          <button class="edition-stat" type="button" data-year="2026" data-target="atividades">
+            <strong>07</strong>
+            <span>Atividades</span>
+          </button>
+          <button class="edition-stat" type="button" data-year="2026" data-target="palestras">
+            <strong>10</strong>
+            <span>Palestras</span>
+          </button>
+          <button class="edition-stat" type="button" data-year="2026" data-target="voluntarios">
+            <strong>26</strong>
+            <span>Voluntários</span>
+          </button>
+        </div>
+
+        <div class="edition-list-panel active" data-year="2026" data-target="projetos">
+          <ul class="edition-item-list">
+            <li>01. Soluções em IA aplicada à educação e gestão.</li>
+            <li>02. Sistema de análise e apoio à tomada de decisão.</li>
+            <li>03. Projeto interdisciplinar em sustentabilidade digital.</li>
+            <li>04. Placa inteligente para apoio pedagógico.</li>
+            <li>05. Solução de automação para rotinas acadêmicas.</li>
+            <li>06. Plataforma para divulgação de trabalhos e eventos.</li>
+            <li>07. Sistema de apoio à extensão e comunidade.</li>
+            <li>08. Visualização de dados com impacto social.</li>
+            <li>09. Aplicativo para apoio à pesquisa em laboratórios.</li>
+            <li>10. Inovação em inteligência artificial aplicada à saúde.</li>
+            <li>11. Ambiente de desenvolvimento para projetos estudantis.</li>
+            <li>12. Sistema para monitoramento e gestão de processos.</li>
+            <li>13. Projeto inovador em educação tecnológica.</li>
+            <li>14. Ferramenta de apoio para o setor produtivo local.</li>
+            <li>15. Solução de documentação e análise de dados.</li>
+            <li>16. Sistema de apoio à criação de conteúdo digital.</li>
+            <li>17. Plataforma para organização de atividades acadêmicas.</li>
+            <li>18. Iniciativa de pesquisa em computação aplicada.</li>
+          </ul>
+        </div>
+
+        <div class="edition-list-panel" data-year="2026" data-target="atividades">
+          <ul class="edition-item-list">
+            <li>01. Abertura oficial com apresentação de temas da edição.</li>
+            <li>02. Conferências, painéis e debates temáticos.</li>
+            <li>03. Apresentação de projetos em exposição aberta.</li>
+            <li>04. Sessão de networking e conexão com mercado.</li>
+            <li>05. Workshops e oficinas de prática.</li>
+            <li>06. Mostra de trabalhos acadêmicos e extensão.</li>
+            <li>07. Encerramento com reconhecimento e celebração.</li>
+          </ul>
+        </div>
+
+        <div class="edition-list-panel" data-year="2026" data-target="palestras">
+          <ul class="edition-item-list">
+            <li>01. Dados, IA e transformação digital.</li>
+            <li>02. Tecnologia e educação para o futuro.</li>
+            <li>03. Computação aplicada à educação e pesquisa.</li>
+            <li>04. Inovação e impacto social.</li>
+            <li>05. Novas tendências em desenvolvimento de software.</li>
+            <li>06. Inteligência artificial e tomada de decisão.</li>
+            <li>07. Sustentabilidade e tecnologia.</li>
+            <li>08. Interface, experiência e UX.</li>
+            <li>09. Pesquisa aplicada em automação.</li>
+            <li>10. Tecnologias emergentes e perspectivas.</li>
+          </ul>
+        </div>
+
+        <div class="edition-list-panel" data-year="2026" data-target="voluntarios">
+          <ul class="edition-item-list">
+            <li>01. Ana Beatriz — suporte de programação.</li>
+            <li>02. Bruno Teixeira — logística do evento.</li>
+            <li>03. Camila Dias — atendimento ao público.</li>
+            <li>04. Diego Lemos — apoio de estandes.</li>
+            <li>05. Elisa Nóbrega — comunicação interna.</li>
+            <li>06. Fernando Torres — organização de palestras.</li>
+            <li>07. Giovana Batista — materiais e recursos.</li>
+            <li>08. Hugo Pessoa — apoio técnico.</li>
+            <li>09. Isadora Costa — recepção.</li>
+            <li>10. João Gabriel — logística e organização.</li>
+            <li>11. Keila Vilar — apoio à equipe.</li>
+            <li>12. Leonardo Grecco — suporte operacional.</li>
+            <li>13. Marcia Freitas — acompanhamento do público.</li>
+            <li>14. Natan Silva — apoio de estandes.</li>
+            <li>15. Olivia Passos — comunicação visual.</li>
+            <li>16. Pedro Almeida — logística geral.</li>
+            <li>17. Quésia Santos — apoio final.</li>
+            <li>18. Ricardo Nogueira — suporte de palestras.</li>
+            <li>19. Sabrina Mello — apoio acadêmico.</li>
+            <li>20. Tiago Meireles — organização de materiais.</li>
+            <li>21. Uriel Andrade — apoio geral.</li>
+            <li>22. Valéria Rocha — apoio à equipe.</li>
+            <li>23. William Costa — suporte operacional.</li>
+            <li>24. Ximena Ribeiro — organização de atividades.</li>
+            <li>25. Yuri Schmitt — apoio em laboratório.</li>
+            <li>26. Zoraide Leite — apoio final e encerramento.</li>
+          </ul>
+        </div>
+
+        <div class="edition-layout">
+          <div class="edition-main">
+            <div class="edition-card">
+              <h4>Projetos</h4>
+              <ul class="edition-list">
+                <li>Soluções em IA aplicada à educação e gestão.</li>
+                <li>Projetos de sustentabilidade e tecnologia.</li>
+                <li>Inovações em sistemas inteligentes e automação.</li>
+              </ul>
+            </div>
+
+            <div class="edition-card">
+              <h4>Atividades</h4>
+              <ul class="edition-list">
+                <li>Apresentação de trabalhos da carreira acadêmica.</li>
+                <li>Conferências, painéis e debates temáticos.</li>
+                <li>Espaço de networking com comunidade e mercado.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="edition-side">
+            <div class="edition-card">
+              <h4>Palestrantes</h4>
+              <div class="speaker-list">
+                <div class="speaker-item">
+                  <strong>Prof. Gabriela Nunes</strong>
+                  <span>Dados, IA e transformação digital.</span>
+                </div>
+                <div class="speaker-item">
+                  <strong>Dr. Henrique Costa</strong>
+                  <span>Computação aplicada à educação e pesquisa.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="edition-card">
+              <h4>Organizadores</h4>
+              <div class="organizers">
+                <span class="organizer-tag">Coordenação</span>
+                <span class="organizer-tag">Pesquisa</span>
+                <span class="organizer-tag">Palestras</span>
+                <span class="organizer-tag">Logística</span>
+              </div>
+              <div class="organizer-gallery">
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Coordenação</strong>
+                  <span>Nome do responsável</span>
+                </div>
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Pesquisa</strong>
+                  <span>Nome da pessoa</span>
+                </div>
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Palestras</strong>
+                  <span>Nome da pessoa</span>
+                </div>
+                <div class="organizer-card">
+                  <div class="organizer-photo">FOTO</div>
+                  <strong>Logística</strong>
+                  <span>Nome da pessoa</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="edition-card">
+          <h4>Fotos e memória</h4>
+          <div class="photo-strip">
+            <div class="photo-box">Foto 01</div>
+            <div class="photo-box">Foto 02</div>
+            <div class="photo-box">Foto 03</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     EIXOS
+===================================================== -->
+
+<section
+  class="section axes"
+  id="eixos"
+>
+
+  <div class="container">
+
+    <div class="section-header reveal">
+
+      <div>
+
+        <span class="section-label">
+          03 / EIXOS DA MOSTRA
+        </span>
+
+        <h2>
+          ONDE O
+          <span>CONHECIMENTO</span>
+          SE ENCONTRA.
+        </h2>
+
+      </div>
+
+      <p>
+        Diferentes experiências,
+        uma mesma vontade:
+        explorar o impacto da computação.
+      </p>
+
+    </div>
+
+
+    <div class="axis-grid">
+
+
+      <article class="axis reveal">
+
+        <span class="axis-number">
+          01
+        </span>
+
+        <span class="axis-icon">
+          ◈
+        </span>
+
+        <h3>
+          MOSTRA CIENTÍFICA
+        </h3>
+
+        <p>
+          Apresentação de projetos,
+          pesquisas e resultados
+          desenvolvidos por estudantes
+          e professores.
+        </p>
+
+      </article>
+
+
+      <article class="axis reveal">
+
+        <span class="axis-number">
+          02
+        </span>
+
+        <span class="axis-icon">
+          ⌘
+        </span>
+
+        <h3>
+          NETWORK
+        </h3>
+
+        <p>
+          Espaço para conexões profissionais,
+          troca de experiências e construção
+          de parcerias.
+        </p>
+
+      </article>
+
+
+      <article class="axis reveal">
+
+        <span class="axis-number">
+          03
+        </span>
+
+        <span class="axis-icon">
+          ◫
+        </span>
+
+        <h3>
+          TRILHA CIENTÍFICA
+        </h3>
+
+        <p>
+          Apresentação de trabalhos e
+          pesquisas acadêmicas.
+        </p>
+
+      </article>
+
+
+      <article class="axis reveal">
+
+        <span class="axis-number">
+          04
+        </span>
+
+        <span class="axis-icon">
+          ◉
+        </span>
+
+        <h3>
+          PAINÉIS
+        </h3>
+
+        <p>
+          Debates sobre inovação,
+          mercado e desafios
+          contemporâneos da computação.
+        </p>
+
+      </article>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PROGRAMAÇÃO
+===================================================== -->
+
+<section
+  class="section schedule"
+  id="programacao"
+>
+
+  <div class="container">
+
+    <div class="section-header reveal">
+
+      <div>
+
+        <span class="section-label">
+          04 / AGENDA
+        </span>
+
+        <h2>
+          PROGRAMAÇÃO<span>.</span>
+        </h2>
+
+      </div>
+
+      <p>
+        Uma agenda preparada para receber
+        ciência, tecnologia e troca
+        de experiências.
+      </p>
+
+    </div>
+
+
+    <div class="empty-box reveal">
+
+      <div class="icon">
+        ◷
+      </div>
+
+      <h3>
+        Programação em preparação
+      </h3>
+
+      <p>
+        Os horários e atividades oficiais
+        ainda não estão cadastrados.
+        Esta estrutura está pronta para
+        receber a programação real da
+        MICOMP 2026.
+      </p>
+
+
+      <div class="schedule-tabs">
+
+        <span>MANHÃ</span>
+        <span>TARDE</span>
+        <span>NOITE</span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TRABALHOS
+===================================================== -->
+
+<section
+  class="section papers"
+  id="trabalhos"
+>
+
+  <div class="container">
+
+    <div class="section-header reveal">
+
+      <div>
+
+        <span class="section-label">
+          05 / PESQUISA
+        </span>
+
+        <h2>
+          CONHECIMENTO EM
+          <span>MOVIMENTO.</span>
+        </h2>
+
+      </div>
+
+      <p>
+        Estrutura pronta para receber
+        os trabalhos acadêmicos da mostra.
+      </p>
+
+    </div>
+
+
+    <div class="filters reveal">
+
+      <button
+        class="filter active"
+        onclick="filterWork(this)"
+      >
+        TODOS
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterWork(this)"
+      >
+        INICIAÇÃO CIENTÍFICA
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterWork(this)"
+      >
+        PROJETOS
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterWork(this)"
+      >
+        PESQUISA
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterWork(this)"
+      >
+        EXTENSÃO
+      </button>
+
+    </div>
+
+
+    <div class="empty-box reveal">
+
+      <div class="icon">
+        ◇
+      </div>
+
+      <h3>
+        Trabalhos ainda não cadastrados
+      </h3>
+
+      <p>
+        Os cards e filtros estão prontos
+        para integração com banco de dados
+        ou API.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PALESTRAS
+===================================================== -->
+
+<section
+  class="section schedule"
+  id="palestras"
+>
+
+  <div class="container">
+
+    <div class="section-header reveal">
+
+      <div>
+
+        <span class="section-label">
+          06 / CONVIDADOS
+        </span>
+
+        <h2>
+          IDEIAS QUE MOVEM A
+          <span>COMPUTAÇÃO.</span>
+        </h2>
+
+      </div>
+
+    </div>
+
+
+    <div class="empty-box reveal">
+
+      <div class="icon">
+        ◉
+      </div>
+
+      <h3>
+        Convidados em breve
+      </h3>
+
+      <p>
+        A área está preparada para fotos,
+        nomes, instituições, temas e
+        horários dos palestrantes oficiais.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     NETWORK
+===================================================== -->
+
+<section
+  class="network"
+  id="network"
+>
+
+  <div class="container network-grid">
+
+
+    <div class="reveal">
+
+      <span class="section-label">
+        07 / NETWORK
+      </span>
+
+      <h2>
+
+        CONEXÕES QUE CONTINUAM
+        <br>
+
+        ALÉM DO
+        <span>EVENTO.</span>
+
+      </h2>
+
+      <p class="network-text">
+
+        A MICOMP aproxima pessoas e ideias
+        para estimular novas conversas,
+        parcerias e possibilidades.
+
+      </p>
+
+    </div>
+
+
+    <div class="network-map reveal">
+
+      <div class="network-circle"></div>
+
+      <div class="network-center">
+        MICOMP
+      </div>
+
+      <span class="node node1">
+        ESTUDANTES
+      </span>
+
+      <span class="node node2">
+        PROFESSORES
+      </span>
+
+      <span class="node node3">
+        PESQUISADORES
+      </span>
+
+      <span class="node node4">
+        EMPRESAS
+      </span>
+
+      <span class="node node5">
+        PROFISSIONAIS
+      </span>
+
+      <span class="node node6">
+        COMUNIDADE
+      </span>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     IFRS
+===================================================== -->
+
+<section
+  class="section ifrs"
+  id="ifrs"
+>
+
+  <div class="container ifrs-grid">
+
+
+    <div class="campus reveal">
+
+      <div class="campus-info">
+
+        <small>
+          IFRS
+        </small>
+
+        <strong>
+          IBIRUBÁ
+        </strong>
+
+        <span>
+          ENSINO • PESQUISA • EXTENSÃO
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="reveal">
+
+      <span class="section-label">
+        08 / INSTITUIÇÃO
+      </span>
+
+      <h2>
+        IFRS CAMPUS
+        <span>IBIRUBÁ.</span>
+      </h2>
+
+
+      <p class="ifrs-text">
+
+        O Instituto Federal de Educação,
+        Ciência e Tecnologia do Rio Grande
+        do Sul — Campus Ibirubá integra
+        ensino, pesquisa e extensão,
+        formando profissionais e desenvolvendo
+        conhecimento conectado às necessidades
+        da sociedade.
+
+      </p>
+
+
+      <div class="ifrs-pillars">
+
+        <div class="ifrs-pillar">
+          ENSINO
+        </div>
+
+        <div class="ifrs-pillar">
+          PESQUISA
+        </div>
+
+        <div class="ifrs-pillar">
+          EXTENSÃO
+        </div>
+
+      </div>
+
+
+      <a
+        href="https://ifrs.edu.br/ibiruba/"
+        target="_blank"
+        class="btn btn-primary"
+      >
+        CONHEÇA O IFRS →
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     GALERIA
+===================================================== -->
+
+<section class="section gallery">
+
+  <div class="container">
+
+    <div class="section-header reveal">
+
+      <div>
+
+        <span class="section-label">
+          09 / MEMÓRIA
+        </span>
+
+        <h2>
+          GALERIA
+          <span>MICOMP.</span>
+        </h2>
+
+      </div>
+
+      <p>
+        Substitua os espaços pelas
+        fotografias oficiais das edições.
+      </p>
+
+    </div>
+
+
+    <div class="gallery-grid">
+
+      <div class="gallery-item reveal">
+        <div class="gallery-content">
+          ◇
+          <span>PALESTRAS</span>
+          <small>ADICIONAR FOTO</small>
+        </div>
+      </div>
+
+
+      <div class="gallery-item reveal">
+        <div class="gallery-content">
+          ◇
+          <span>PROJETOS</span>
+          <small>ADICIONAR FOTO</small>
+        </div>
+      </div>
+
+
+      <div class="gallery-item reveal">
+        <div class="gallery-content">
+          ◇
+          <span>PESQUISA</span>
+          <small>ADICIONAR FOTO</small>
+        </div>
+      </div>
+
+
+      <div class="gallery-item reveal">
+        <div class="gallery-content">
+          ◇
+          <span>PÚBLICO</span>
+          <small>ADICIONAR FOTO</small>
+        </div>
+      </div>
+
+
+      <div class="gallery-item reveal">
+        <div class="gallery-content">
+          ◇
+          <span>NETWORKING</span>
+          <small>ADICIONAR FOTO</small>
+        </div>
+      </div>
+
+
+      <div class="gallery-item reveal">
+        <div class="gallery-content">
+          ◇
+          <span>BASTIDORES</span>
+          <small>ADICIONAR FOTO</small>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section
+  class="cta"
+  id="participar"
+>
+
+  <div class="cta-content reveal">
+
+    <span class="section-label">
+      10 / PARTICIPE
+    </span>
+
+    <h2>
+
+      FAÇA PARTE DA
+
+      <br>
+
+      <span>
+        MICOMP 2026.
+      </span>
+
+    </h2>
+
+
+    <p>
+
+      Ciência, tecnologia, inovação e
+      pessoas conectadas para transformar
+      ideias em possibilidades.
+
+    </p>
+
+
+    <div class="buttons">
+
+      <a
+        href="#programacao"
+        class="btn btn-primary"
+      >
+        QUERO PARTICIPAR →
+      </a>
+
+      <a
+        href="#programacao"
+        class="btn btn-outline"
+      >
+        CONHEÇA A PROGRAMAÇÃO
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LOCALIZAÇÃO
+===================================================== -->
+
+<section class="location">
+
+  <div class="container location-grid">
+
+
+    <div class="reveal">
+
+      <span class="section-label">
+        11 / LOCALIZAÇÃO
+      </span>
+
+      <h2>
+        ONDE A MICOMP
+        <span>ACONTECE.</span>
+      </h2>
+
+
+      <div class="address">
+
+        <strong>
+          IFRS Campus Ibirubá
+        </strong>
+
+        <br>
+
+        Rua Nelsi Ribas Fritsch, 1111
+
+        <br>
+
+        Ibirubá — RS
+
+      </div>
+
+
+      <a
+        class="text-link"
+        href="https://www.google.com/maps/search/?api=1&query=IFRS%20Campus%20Ibirub%C3%A1"
+        target="_blank"
+      >
+        ABRIR NO GOOGLE MAPS →
+      </a>
+
+    </div>
+
+
+    <div class="map reveal">
+
+      <div style="font-size:40px;color:var(--blue)">
+        ◎
+      </div>
+
+      <strong>
+        IFRS — CAMPUS IBIRUBÁ
+      </strong>
+
+      <span>
+        MAPA INTERATIVO
+      </span>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+  <div class="container footer-top">
+
+
+    <div>
+
+      <div class="brand">
+
+        <div class="brand-mark">
+          <span>M</span>
+        </div>
+
+        <div class="brand-text">
+          <strong>MICOMP</strong>
+          <small>IFRS • IBIRUBÁ</small>
+        </div>
+
+      </div>
+
+
+      <p class="footer-description">
+
+        Mostra Interdisciplinar de Computação
+        <br>
+        IFRS Campus Ibirubá
+
+      </p>
+
+    </div>
+
+
+    <div class="footer-links">
+
+      <div>
+
+        <strong>
+          NAVEGAÇÃO
+        </strong>
+
+        <a href="#inicio">
+          INÍCIO
+        </a>
+
+        <a href="#sobre">
+          SOBRE
+        </a>
+
+        <a href="#eixos">
+          EIXOS
+        </a>
+
+        <a href="#programacao">
+          PROGRAMAÇÃO
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <strong>
+          REDES
+        </strong>
+
+        <a href="#">
+          Instagram
+        </a>
+
+        <a href="#">
+          Facebook
+        </a>
+
+        <a href="#">
+          YouTube
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="container footer-bottom">
+
+    <span>
+      © 2026 MICOMP — Mostra Interdisciplinar de Computação
+    </span>
+
+    <span>
+      IFRS CAMPUS IBIRUBÁ
+    </span>
+
+  </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   FALLBACK PARA NAVEGADORES ANTIGOS
+===================================================== */
+
+if (!window.IntersectionObserver) {
+  document.querySelectorAll('.reveal').forEach(function (element) {
+    element.classList.add('visible');
+  });
+}
+
+
+/* =====================================================
+
+  const menu =
+    document.getElementById("navLinks");
+
+  menu.classList.toggle("open");
+
+}
+
+
+
+/* =====================================================
+   NAVBAR AO ROLAR
+===================================================== */
+
+window.addEventListener(
+  "scroll",
+  () => {
+
+    const navbar =
+      document.getElementById("navbar");
+
+    if (window.scrollY > 30) {
+
+      navbar.classList.add("scrolled");
+
+    } else {
+
+      navbar.classList.remove("scrolled");
+
+    }
+
+  }
+);
+
+
+
+/* =====================================================
+   CONTADOR
+===================================================== */
+
+const eventDate =
+  new Date(
+    "2026-06-29T09:00:00-03:00"
+  );
+
+
+function updateCountdown() {
+
+  const now =
+    new Date().getTime();
+
+  const distance =
+    Math.max(
+      0,
+      eventDate.getTime() - now
+    );
+
+
+  const days =
+    Math.floor(
+      distance /
+      (1000 * 60 * 60 * 24)
+    );
+
+
+  const hours =
+    Math.floor(
+      (distance /
+      (1000 * 60 * 60)) % 24
+    );
+
+
+  const minutes =
+    Math.floor(
+      (distance /
+      (1000 * 60)) % 60
+    );
+
+
+  const seconds =
+    Math.floor(
+      (distance /
+      1000) % 60
+    );
+
+
+  document.getElementById("days")
+    .textContent =
+    String(days).padStart(2,"0");
+
+
+  document.getElementById("hours")
+    .textContent =
+    String(hours).padStart(2,"0");
+
+
+  document.getElementById("minutes")
+    .textContent =
+    String(minutes).padStart(2,"0");
+
+
+  document.getElementById("seconds")
+    .textContent =
+    String(seconds).padStart(2,"0");
+
+}
+
+
+updateCountdown();
+
+setInterval(
+  updateCountdown,
+  1000
+);
+
+
+
+/* =====================================================
+   FILTROS DOS TRABALHOS
+===================================================== */
+
+function filterWork(button) {
+
+  document
+    .querySelectorAll(".filter")
+    .forEach(btn => {
+
+      btn.classList.remove("active");
+
+    });
+
+
+  button.classList.add("active");
+
+}
+
+
+/* =====================================================
+   EDIÇÕES MICOMP
+===================================================== */
+
+const editionTabs = document.querySelectorAll('.edition-tab');
+const editionPanels = document.querySelectorAll('.edition-panel');
+
+editionTabs.forEach((tab) => {
+  tab.addEventListener('click', () => {
+    const year = tab.dataset.year;
+
+    editionTabs.forEach((btn) => {
+      btn.classList.toggle('active', btn === tab);
+    });
+
+    editionPanels.forEach((panel) => {
+      panel.classList.toggle('active', panel.dataset.panel === year);
+    });
+  });
+});
+
+const editionStatButtons = document.querySelectorAll('.edition-stat');
+const editionListPanels = document.querySelectorAll('.edition-list-panel');
+
+editionStatButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const year = button.dataset.year;
+    const target = button.dataset.target;
+
+    document.querySelectorAll(`.edition-stat[data-year="${year}"]`).forEach((btn) => {
+      btn.classList.toggle('active', btn === button);
+    });
+
+    document.querySelectorAll(`.edition-list-panel[data-year="${year}"]`).forEach((panel) => {
+      panel.classList.toggle('active', panel.dataset.target === target);
+    });
+  });
+});
+
+const projectModalBackdrop = document.getElementById('projectModalBackdrop');
+const projectModalYear = document.getElementById('projectModalYear');
+const projectModalTitle = document.getElementById('projectModalTitle');
+const projectModalText = document.getElementById('projectModalText');
+const projectModalMeta = document.getElementById('projectModalMeta');
+const closeProjectModalBtn = document.querySelector('.project-modal-close');
+
+const inferProjectTags = (title) => {
+  const keywords = [
+    ['IA', 'inteligência artificial', 'ia'],
+    ['EDUCAÇÃO', 'educação', 'educacional'],
+    ['SUSTENTABILIDADE', 'sustentabilidade'],
+    ['ROBÓTICA', 'robótica'],
+    ['DADOS', 'dados', 'dashboard'],
+    ['SAÚDE', 'saúde'],
+    ['EXTENSÃO', 'extensão'],
+    ['TECNOLOGIA', 'tecnologia', 'digital']
+  ];
+
+  const tags = [];
+
+  keywords.forEach(([tag, ...matches]) => {
+    const hasMatch = matches.some(item => title.toLowerCase().includes(item.toLowerCase()));
+    if (hasMatch && !tags.includes(tag)) {
+      tags.push(tag);
+    }
+  });
+
+  if (!tags.length) {
+    tags.push('INOVAÇÃO');
+  }
+
+  return tags.slice(0, 3);
+};
+
+const openProjectModal = (year, title) => {
+  const safeTitle = title.trim();
+  const tags = inferProjectTags(safeTitle);
+  const detailText = `Projeto apresentado na edição de ${year} da MICOMP, desenvolvido com foco em inovação, aplicação prática de tecnologia e fortalecimento da pesquisa e da formação acadêmica. O trabalho destaca a criação de soluções com impacto direto no ambiente universitário e na comunidade.`;
+
+  projectModalYear.textContent = `MICOMP • ${year}`;
+  projectModalTitle.textContent = safeTitle;
+  projectModalText.textContent = detailText;
+  projectModalMeta.innerHTML = tags.map(tag => `<span>${tag}</span>`).join('');
+  projectModalBackdrop.classList.add('active');
+  projectModalBackdrop.setAttribute('aria-hidden', 'false');
+};
+
+const closeProjectModal = () => {
+  projectModalBackdrop.classList.remove('active');
+  projectModalBackdrop.setAttribute('aria-hidden', 'true');
+};
+
+const projectButtons = document.querySelectorAll('.edition-list-panel[data-target="projetos"] li');
+projectButtons.forEach((item) => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'project-list-item';
+  button.dataset.year = item.closest('.edition-list-panel').dataset.year;
+  button.dataset.projectName = item.textContent.replace(/^\d+\.\s*/, '').trim();
+  button.innerHTML = item.innerHTML;
+
+  button.addEventListener('click', () => {
+    openProjectModal(button.dataset.year, button.dataset.projectName);
+  });
+
+  item.replaceWith(button);
+});
+
+if (closeProjectModalBtn) {
+  closeProjectModalBtn.addEventListener('click', closeProjectModal);
+}
+
+if (projectModalBackdrop) {
+  projectModalBackdrop.addEventListener('click', (event) => {
+    if (event.target === projectModalBackdrop) {
+      closeProjectModal();
+    }
+  });
+}
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && projectModalBackdrop.classList.contains('active')) {
+    closeProjectModal();
+  }
+});
+
+
+/* =====================================================
+   SCROLL REVEAL
+===================================================== */
+
+const observer =
+  new IntersectionObserver(
+    entries => {
+
+      entries.forEach(
+        entry => {
+
+          if (
+            entry.isIntersecting
+          ) {
+
+            entry.target
+              .classList
+              .add("visible");
+
+            observer.unobserve(
+              entry.target
+            );
+
+          }
+
+        }
+      );
+
+    },
+    {
+      threshold: .12
+    }
+  );
+
+
+document
+  .querySelectorAll(".reveal")
+  .forEach(
+    element =>
+      observer.observe(element)
+  );
+
+
+</script>
+
+</body>
+</html>
